@@ -445,10 +445,12 @@ void doActivation(T* output, const GemmOutputType* gemm_result, const float* fp8
           return &doActivationKernel<T, GemmOutputType, ScaleBiasType, SiLu, decltype(block_scaling_type)::value>;
       }
     };
+#ifdef ENABLE_FP4
     auto NVFP4 = onnxruntime::llm::common::ConstExprWrapper<TmaWarpSpecializedGroupedGemmInput::FpXBlockScalingType,
                                                             TmaWarpSpecializedGroupedGemmInput::FpXBlockScalingType::NVFP4>{};
     auto MXFPX = onnxruntime::llm::common::ConstExprWrapper<TmaWarpSpecializedGroupedGemmInput::FpXBlockScalingType,
                                                             TmaWarpSpecializedGroupedGemmInput::FpXBlockScalingType::MXFPX>{};
+#endif
     auto NONE = onnxruntime::llm::common::ConstExprWrapper<TmaWarpSpecializedGroupedGemmInput::FpXBlockScalingType,
                                                            TmaWarpSpecializedGroupedGemmInput::FpXBlockScalingType::NONE>{};
 #ifdef ENABLE_FP4

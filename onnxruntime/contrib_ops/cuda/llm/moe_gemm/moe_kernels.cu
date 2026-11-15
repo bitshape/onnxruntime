@@ -3316,8 +3316,8 @@ CutlassMoeFCRunner<T, WeightType, OutputType, InputType, ScaleBiasType, Enable>:
 
       TmaWarpSpecializedGroupedGemmInput::MXFPXElementSF weight_block_scale_value_int{};
 #ifdef ENABLE_FP8
-      __nv_fp8_e8m0 tmp;
-      tmp.__x = __nv_cvt_float_to_e8m0(1.0f, __NV_SATFINITE, cudaRoundPosInf);
+      // CUTLASS retains its software E8M0 conversion on CUDA 12.6.
+      cutlass::float_ue8m0_t tmp(1.0f);
       std::memcpy(&weight_block_scale_value_int, &tmp, sizeof(tmp));
 #endif
 
